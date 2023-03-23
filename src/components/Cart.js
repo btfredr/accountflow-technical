@@ -5,18 +5,27 @@ const Cart = ({ cartItems, onAdd, onRemove }) => {
   const taxPrice = itemsPrice * 0.25;
   const totalPrice = itemsPrice + taxPrice;
   return (
-    <aside>
+    <div className="cart">
       <h2>Cart Items</h2>
       <div>
-        {cartItems.length === 0 && <div>Cart is empty</div>}
+        {cartItems.length === 0 && <p>Cart is empty</p>}
         {cartItems.map((item) => (
-          <div key={item.id}>
-            <h2>{item.name}</h2>
+          <div className="cartItem" key={item.id}>
+            <img
+              className="cartImg"
+              src={item.images[0]}
+              alt={item.description}
+            />
+            <h2>{item.title}</h2>
             <div>
-              <button onClick={() => onRemove(item)}>-</button>
+              <button className="cartBtn-remove" onClick={() => onRemove(item)}>
+                -
+              </button>
             </div>
             <div>
-              <button onClick={() => onAdd(item)}>+</button>
+              <button className="cartBtn-add" onClick={() => onAdd(item)}>
+                +
+              </button>
             </div>
             <div>
               {item.qty} x NOK{item.price.toFixed(2)}
@@ -41,6 +50,7 @@ const Cart = ({ cartItems, onAdd, onRemove }) => {
             <hr />
             <div>
               <button
+                className="checkout"
                 onClick={() => alert("Checkout functionality coming soon!")}
               >
                 Checkout
@@ -49,7 +59,7 @@ const Cart = ({ cartItems, onAdd, onRemove }) => {
           </>
         )}
       </div>
-    </aside>
+    </div>
   );
 };
 
