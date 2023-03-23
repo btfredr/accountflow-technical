@@ -20,22 +20,20 @@ function App() {
     <>
       <div className="container">
         <div className="products">
-          <div className="product">
-            {products.map((product) => (
-              <>
-                <img src={product.images[0]} alt={product.description} />
-                <div className="product__content">
-                  <h4>{product.title}</h4>
-                  <p>{product.price}</p>
-                  <div className="product__btnContainer">
-                    <button>
-                      <a href="">Add to cart</a>
-                    </button>
-                  </div>
+          {products.map((product) => (
+            <div className="product" key={product.id}>
+              <img src={product.images[0]} alt={product.description} />
+              <div className="product__content">
+                <h4>{product.title}</h4>
+                <p>{product.price}</p>
+                <div className="product__btnContainer">
+                  <button>
+                    <a href="">Add to cart</a>
+                  </button>
                 </div>
-              </>
-            ))}
-          </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>
