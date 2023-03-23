@@ -14,9 +14,11 @@ function App() {
         x.id === product.id ? { ...exist, qty: exist.wty + 1 } : x
       );
       setCartItems(newCartItems);
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
     } else {
       const newCartItems = [...cartItems, { ...product, qty: 1 }];
       setCartItems(newCartItems);
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
     }
   };
   const onRemove = (product) => {
@@ -24,11 +26,13 @@ function App() {
     if (exist.qty === 1) {
       const newCartItems = cartItems.filter((x) => x.id !== product.id);
       setCartItems(newCartItems);
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
     } else {
       const newCartItems = cartItems.map((x) =>
         x.id === product.id ? { ...exist, qty: exist.qty - 1 } : x
       );
       setCartItems(newCartItems);
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
     }
   };
 
@@ -43,6 +47,15 @@ function App() {
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    setCartItems(
+      localStorage.getItem("cartItems")
+        ? JSON.parse(localStorage.getItem("cartItems"))
+        : []
+    );
+  }, []);
+
   return (
     <>
       <div className="container">
