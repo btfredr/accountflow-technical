@@ -1,10 +1,9 @@
-import "./App.css";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Main from "./Main";
 import Cart from "./components/Cart";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
 
   const onAdd = (product) => {
@@ -37,46 +36,29 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const result = await axios(
-        "https://api.escuelajs.co/api/v1/products?offset=0&limit=9"
-      );
-
-      setProducts(result.data);
-      console.log(result.data);
-    };
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
     setCartItems(
       localStorage.getItem("cartItems")
         ? JSON.parse(localStorage.getItem("cartItems"))
         : []
     );
   }, []);
-
   return (
-    <>
-      <div className="container">
-        <div className="products">
-          {products.map((product) => (
-            <div className="product" key={product.id}>
-              <img src={product.images[0]} alt={product.description} />
-              <div className="product__content">
-                <h4>{product.title}</h4>
-                <p>{product.category.name}</p>
-                <p>{product.price}</p>
-                <div className="product__btnContainer">
-                  <button onClick={() => onAdd(product)}>Add To Cart</button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <Cart cartItems={cartItems} onAdd={onAdd} onRemove={onRemove} />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              cartItems={cartItems}
+              onAdd={onAdd}
+              onRemove={onRemove}
+              setCartItems={setCartItems}
+            />
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
