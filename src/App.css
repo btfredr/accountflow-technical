@@ -3,3 +3,25 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.product {
+  background-color: white;
+  color: black;
+  margin-bottom: 25px;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 10px 10px 25px -1px rgba(0, 0, 0, 0.11);
+}
