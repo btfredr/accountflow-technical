@@ -11,7 +11,7 @@ function App() {
     const exist = cartItems.find((x) => x.id === product.id);
     if (exist) {
       const newCartItems = cartItems.map((x) =>
-        x.id === product.id ? { ...exist, qty: exist.wty + 1 } : x
+        x.id === product.id ? { ...exist, qty: exist.qty + 1 } : x
       );
       setCartItems(newCartItems);
       localStorage.setItem("cartItems", JSON.stringify(newCartItems));
