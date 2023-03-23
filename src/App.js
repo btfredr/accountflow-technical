@@ -1,9 +1,36 @@
 import "./App.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Cart from "./components/Cart";
 
 function App() {
   const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+
+  const onAdd = (product) => {
+    const exist = cartItems.find((x) => x.id === product.id);
+    if (exist) {
+      const newCartItems = cartItems.map((x) =>
+        x.id === product.id ? { ...exist, qty: exist.wty + 1 } : x
+      );
+      setCartItems(newCartItems);
+    } else {
+      const newCartItems = [...cartItems, { ...product, qty: 1 }];
+      setCartItems(newCartItems);
+    }
+  };
+  const onRemove = (product) => {
+    const exist = cartItems.find((x) => x.id === product.id);
+    if (exist.qty === 1) {
+      const newCartItems = cartItems.filter((x) => x.id !== product.id);
+      setCartItems(newCartItems);
+    } else {
+      const newCartItems = cartItems.map((x) =>
+        x.id === product.id ? { ...exist, qty: exist.qty - 1 } : x
+      );
+      setCartItems(newCartItems);
+    }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,17 +52,17 @@ function App() {
               <img src={product.images[0]} alt={product.description} />
               <div className="product__content">
                 <h4>{product.title}</h4>
+                <p>{product.category.name}</p>
                 <p>{product.price}</p>
                 <div className="product__btnContainer">
-                  <button>
-                    <a href="">Add to cart</a>
-                  </button>
+                  <button onClick={() => onAdd(product)}>Add To Cart</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+      <Cart cartItems={cartItems} onAdd={onAdd} onRemove={onRemove} />
     </>
   );
 }
